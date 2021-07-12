@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:time_tracker/services/auth.dart';
 
+// ignore: must_be_immutable
 class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key}) : super(key: key);
-
-  Size size = Size.zero;
+  SignUpPage({Key? key, required this.auth}) : super(key: key);
+  final Auth auth;
+  late Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,14 @@ class SignUpPage extends StatelessWidget {
               textColor: Colors.black,
               buttonColor: Colors.white38,
               onButtonPress: () {
-                print("Sign in with Google");
+                try {
+                  print("Sign in with Google");
+                  auth.signInWithGoogle();
+                } catch (e) {
+                  print(
+                    e.toString(),
+                  );
+                }
               }),
           SizedBox(
             height: size.height * 0.015,
@@ -91,7 +100,15 @@ class SignUpPage extends StatelessWidget {
               textColor: Colors.black,
               buttonColor: Colors.yellow[600]!,
               onButtonPress: () {
-                print("Sign in Anonymously");
+                try {
+                  print("Sign in Anonymously");
+                  Future<User?> user = auth.signInAnonymously();
+                  print(user);
+                } catch (e) {
+                  print(
+                    e.toString(),
+                  );
+                }
               }),
         ],
       ),
