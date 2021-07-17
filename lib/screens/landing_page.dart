@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:time_tracker/screens/home_page.dart';
 import 'package:time_tracker/screens/sign_up_page.dart';
-import '/services/auth.dart';
+import 'package:time_tracker/services/auth.dart';
 
 class LandingPage extends StatelessWidget {
   LandingPage({Key? key}) : super(key: key);
 
-  final Auth _auth = new Auth();
-
   @override
   Widget build(BuildContext context) {
+    final _auth = new Auth();
     return StreamBuilder<User?>(
       stream: _auth.authStateChanges(),
       builder: (context, snapshot) {

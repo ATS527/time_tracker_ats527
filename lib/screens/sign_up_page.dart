@@ -1,17 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:time_tracker/screens/sign_in_with_email_page.dart';
 import 'package:time_tracker/services/auth.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key, required this.auth}) : super(key: key);
-  final Auth auth;
   late Size size;
+  final auth;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text(
@@ -21,15 +23,15 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
         elevation: 0,
-        toolbarHeight: size.height * 0.07,
+        toolbarHeight: size.height * 0.08,
         centerTitle: true,
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Colors.indigo,
       ),
-      body: contents(),
+      body: contents(context),
     );
   }
 
-  Widget contents() {
+  Widget contents(BuildContext context) {
     return Container(
       width: size.width,
       child: Column(
@@ -76,12 +78,11 @@ class SignUpPage extends StatelessWidget {
             height: size.height * 0.015,
           ),
           signInButton(
-              text: "Sign in with Email",
-              textColor: Colors.white,
-              buttonColor: Colors.teal[700],
-              onButtonPress: () {
-                print("Sign in with Email");
-              }),
+            text: "Sign in with Email",
+            textColor: Colors.white,
+            buttonColor: Colors.teal[700],
+            onButtonPress: () => _signInWithEmail(context, auth),
+          ),
           SizedBox(
             height: size.height * 0.01,
           ),
@@ -113,6 +114,14 @@ class SignUpPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _signInWithEmail(BuildContext context, Auth auth) {
+    Navigator.of(context).push(MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) {
+          return SignInWithEmailPage(auth: auth);
+        }));
   }
 
   Widget socialSignInButton(

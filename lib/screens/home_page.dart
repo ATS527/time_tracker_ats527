@@ -2,25 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker/services/auth.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({required this.auth});
   final Auth auth;
-  const HomeScreen({Key? key, required this.auth}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.indigo,
         title: Text("Home Screen"),
         centerTitle: true,
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              auth.signOut();
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Logout"),
+                      content: Text("Are you sure you want to logout"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await auth.signOut();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Logout"),
+                        ),
+                      ],
+                    );
+                  });
             },
             child: Text(
               "Sign Out",
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ),
